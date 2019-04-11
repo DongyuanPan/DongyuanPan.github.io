@@ -13,9 +13,9 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username:     XXXX
+weibo_username:     想起当初的自己
 zhihu_username:     XXXX
-github_username:    XXXX
+github_username:    DongyuanPan
 twitter_username:   XXXX
 #facebook_username:  huxpro
 #linkedin_username:  firstname-lastname-idxxxx
