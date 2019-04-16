@@ -1,0 +1,53 @@
+---
+layout: post
+title: "C++ Primer 读书笔记 第11章 关联容器"
+subtitle: 'C++ Primer Study Note For Associative-container'
+author: "Dongyuan"
+header-style: text
+tags:
+  - C++ Primer
+  - 读书笔记
+---
+
+这一章感觉没啥好记的，记录的不多。现在才开始写点笔记，慢慢整理之前读过的书吧，以后要要养
+成边读边记录的习惯。
+
+---
+
+## 关键字的类型要求
+
+对于有序容器 map、multimap、set、multiset而言，关键字的类型必须定义元素比较的方法。
+自定义的关键字类型，需要定义一个严格弱序（可以看做是 “小于等于”）的比较操作。
+
+对于无序容器unordered_map、unordered_multimap、unordered_set、unordered_multiset。
+使用关键字类型的==运算符来比较元素，它还使用一个hash<key_type>类型的对象来生成每个元素
+的哈希值。标准库类型为内置类型（包括智能指针）提供了hash模板。因此可以直接定义这些类型
+的无序容器。关键字为自定义类型的，需要重载关键字类型的比较操作和哈希函数，在定义无序容器
+时传入这两个函数的指针。P396
+
+## 关联容器的迭代器
+
+解引用一个关联容器迭代器可以得到一个value_type 的值引用。对map而言，是一个pair类型。
+其first成员保存const的关键字，second成员保存值。（所以可以改变map的value_type的值，
+但是不可以改变关键字成员的值）
+
+Set的迭代器是const的。Iterateor和const_iterateor 只允许读访问元素。和map不能改变关键
+字一样，set中关键字也是const的。
+
+当使用迭代器遍历一个map、multimap、set、multiset时，迭代器按关键字升序遍历。
+
+## 关联容器和算法
+通常不对关联容器使用泛型算法（参见第10章）。例如，可以使用泛型find算法来查找一个元素，
+但是这个算法进行会顺序搜索。使用关联容器定义的专用的find成员会比泛型find快很多。
+
+## 元素访问
+
+**在multimap 或 multiset中查找元素** mutlimap或者multiset中有多个元素具有给定的关键
+字，则这些元素相邻存储。遍历其中重复元素的方法  1）find返回第一个重复元素的迭代器，使用
+count的返回值来控制 find 返回的迭代器。  2）使用 lower_bound 和 upper_bound 控制元素
+的访问。 3）使用equal函数，起返回一个pair。若关键字存在，则第一个迭代器指向第一个与关键
+字匹配的元素，第二个迭代器指向最后一个匹配元素之后的位置。
+
+## 无序容器管理桶
+4个无序容器不再使用比较运算符来组织元素，而是使用一个哈希函数和关键字类型的==运算符。
+P395页 表 11.8
